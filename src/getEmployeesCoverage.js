@@ -6,30 +6,54 @@ const semParam = () => {
     array.push({
       id: pessoa.id,
       fullName: `${pessoa.firstName} ${pessoa.lastName}`,
-      species: pessoa.responsibleFor.map((cada) => data.species.find((animal) => animal.id === cada))
+      species: pessoa.responsibleFor.map((x) => data.species.find((animal) => animal.id === x))
         .map((bicho) => bicho.name),
-      locations: pessoa.responsibleFor.map((cada) => data.species.find((animal) => animal.id === cada))
-        .map((bicho) => bicho.location)
-    })
-  })
+      locations: pessoa.responsibleFor.map((x) => data.species.find((animal) => animal.id === x))
+        .map((bicho) => bicho.location),
+    });
+  });
   return array;
+};
+
+const checkParam = (param) => {
+  if (param.name) {
+    return data.employees.find((pessoa) => [pessoa.firstName, pessoa.lastName]
+      .includes(param.name));
+  }
+  if (param.id) {
+    return data.employees.find((pessoa) => pessoa.id === param.id);
+  }
 };
 
 const getParam = (param) => {
   const getName = data.employees.find((nome) => nome.firstName === param.name);
   const getLast = data.employees.find((last) => last.lastName === param.name);
   const getId = data.employees.find((pessoa) => pessoa.id === param.id);
-  const obj = {};
-  if (param === getName || param === getLast || param === getId) {
-    obj[param] = {
-      id:
+  const funcionarios = checkParam(param);
+  let obj = {};
+  if (param.name === getName || param.name === getLast || param.id === getId) {
+    obj = {
+      id: funcionarios.id,
+      fullName: `${funcionarios.firstName} ${funcionarios.lastName}`,
+      species: funcionarios.responsibleFor.map((x) => data.species
+        .find((animal) => animal.id === x)).map((bicho) => bicho.name),
+      locations: funcionarios.responsibleFor.map((x) => data.species
+        .find((animal) => animal.id === x)).map((bicho) => bicho.location),
     };
   }
+  return obj;
 };
 
-function getEmployeesCoverage() {
-  return semParam();
+function getEmployeesCoverage(param) {
+  if (param === undefined) { return semParam(); }
+  if (!(param.name === data.employees.find((nome) => nome.firstName === param.name)
+     || param.name === data.employees.find((last) => last.lastName === param.name)
+     || param.id === data.employees.find((pessoa) => pessoa.id === param.id))) {
+    throw new Error('Informações inválidas');
+  }
+  return getParam(param);
 }
 
 module.exports = getEmployeesCoverage;
 
+// console.log(getEmployeesCoverage({ name: 'Ola' }));
