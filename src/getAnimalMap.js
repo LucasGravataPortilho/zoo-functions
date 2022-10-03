@@ -15,10 +15,10 @@ const semParam = () => {
   return obj;
 };
 
-const includesName = (param) => {
-  let obj = {};
-  const array = [];
-};
+// const includesName = (param) => {
+//   let obj = {};
+//   const array = [];
+// };
 
 function getAnimalMap(options) {
   // seu código aqui
@@ -26,4 +26,4 @@ function getAnimalMap(options) {
 
 module.exports = getAnimalMap;
 
-console.log(data.species.map((nome) => nome.name));
+// console.log(data.species.map((nome) => nome.name));
