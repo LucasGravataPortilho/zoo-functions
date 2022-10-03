@@ -44,16 +44,20 @@ const getParam = (param) => {
   return obj;
 };
 
-function getEmployeesCoverage(param) {
-  if (param === undefined) { return semParam(); }
-  if (!(param.name === data.employees.find((nome) => nome.firstName === param.name)
-     || param.name === data.employees.find((last) => last.lastName === param.name)
-     || param.id === data.employees.find((pessoa) => pessoa.id === param.id))) {
+const getError = (param) => {
+  const listaIds = data.employees.map((pessoa) => pessoa.id);
+  const listaNomes = data.employees.map((pessoa) => pessoa.firstName);
+  const listaSobrenomes = data.employees.map((pessoa) => pessoa.lastName);
+  if (!(listaIds.includes(param.id) || listaNomes.includes(param.name)
+     || listaSobrenomes.includes(param.name))) {
     throw new Error('Informações inválidas');
   }
+};
+
+function getEmployeesCoverage(param) {
+  if (param === undefined) { return semParam(); }
+  getError(param);
   return getParam(param);
 }
 
 module.exports = getEmployeesCoverage;
-
-// console.log(getEmployeesCoverage({ name: 'Ola' }));
