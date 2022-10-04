@@ -39,17 +39,7 @@ const residentsBySpeciesAndGenderSorted = (animal, sex) => {
   return sorted;
 };
 
-const includeNamesSorted = (options) => {
-  const obj = {
-    NE: semParam().NE.map((bicho) => ({ [`${bicho}`]: residentsBySpeciesSorted(bicho) })),
-    NW: semParam().NW.map((bicho) => ({ [`${bicho}`]: residentsBySpeciesSorted(bicho) })),
-    SE: semParam().SE.map((bicho) => ({ [`${bicho}`]: residentsBySpeciesSorted(bicho) })),
-    SW: semParam().SW.map((bicho) => ({ [`${bicho}`]: residentsBySpeciesSorted(bicho) })),
-  };
-  return obj;
-};
-
-const includeNamesNotSorted = (options) => {
+const includeNamesNotSorted = () => {
   const obj = {
     NE: semParam().NE.map((bicho) => ({ [`${bicho}`]: residentsBySpecies(bicho) })),
     NW: semParam().NW.map((bicho) => ({ [`${bicho}`]: residentsBySpecies(bicho) })),
@@ -59,11 +49,61 @@ const includeNamesNotSorted = (options) => {
   return obj;
 };
 
+const includeNamesWithGenderSorted = (options) => {
+  const obj = {
+    NE: semParam().NE
+      .map((bicho) => ({ [`${bicho}`]: residentsBySpeciesAndGenderSorted(bicho, options.sex) })),
+    NW: semParam().NW
+      .map((bicho) => ({ [`${bicho}`]: residentsBySpeciesAndGenderSorted(bicho, options.sex) })),
+    SE: semParam().SE
+      .map((bicho) => ({ [`${bicho}`]: residentsBySpeciesAndGenderSorted(bicho, options.sex) })),
+    SW: semParam().SW
+      .map((bicho) => ({ [`${bicho}`]: residentsBySpeciesAndGenderSorted(bicho, options.sex) })),
+  };
+  return obj;
+};
+
+const includeNamesSorted = (options) => {
+  if (options.sex !== undefined) {
+    return includeNamesWithGenderSorted(options);
+  }
+  const obj = {
+    NE: semParam().NE.map((bicho) => ({ [`${bicho}`]: residentsBySpeciesSorted(bicho) })),
+    NW: semParam().NW.map((bicho) => ({ [`${bicho}`]: residentsBySpeciesSorted(bicho) })),
+    SE: semParam().SE.map((bicho) => ({ [`${bicho}`]: residentsBySpeciesSorted(bicho) })),
+    SW: semParam().SW.map((bicho) => ({ [`${bicho}`]: residentsBySpeciesSorted(bicho) })),
+  };
+  return obj;
+};
+
+const includeNamesWithGenderNotSorted = (options) => {
+  const obj = {
+    NE: semParam().NE
+      .map((bicho) => ({ [`${bicho}`]: residentsBySpeciesAndGender(bicho, options.sex) })),
+    NW: semParam().NW
+      .map((bicho) => ({ [`${bicho}`]: residentsBySpeciesAndGender(bicho, options.sex) })),
+    SE: semParam().SE
+      .map((bicho) => ({ [`${bicho}`]: residentsBySpeciesAndGender(bicho, options.sex) })),
+    SW: semParam().SW
+      .map((bicho) => ({ [`${bicho}`]: residentsBySpeciesAndGender(bicho, options.sex) })),
+  };
+  return obj;
+};
+
+const includeNames = (options) => {
+  if (options.sorted === true) {
+    return includeNamesSorted(options);
+  } if (options.sex !== undefined) {
+    return includeNamesWithGenderNotSorted(options);
+  }
+  return includeNamesNotSorted();
+};
+
 function getAnimalMap(options) {
-  // seu código aqui
+  if (options !== undefined && options.includeNames === true) {
+    return includeNames(options);
+  }
+  return semParam();
 }
 
 module.exports = getAnimalMap;
-
-// console.log(includeNamesSorted({ sorted: true }));
-// console.log(residentsBySpeciesSorted('lions'));
