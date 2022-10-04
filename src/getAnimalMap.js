@@ -29,10 +29,20 @@ const residentsBySpeciesAndGender = (animal, sex) => {
   return specieSexList;
 };
 
+const residentsBySpeciesSorted = (animal) => {
+  const sorted = residentsBySpecies(animal).sort();
+  return sorted;
+};
+
+const residentsBySpeciesAndGenderSorted = (animal, sex) => {
+  const sorted = residentsBySpeciesAndGender(animal, sex).sort();
+  return sorted;
+};
+
 function getAnimalMap(options) {
   // seu código aqui
 }
 
 module.exports = getAnimalMap;
 
-// console.log(residentsBySpeciesAndGender('otters', 'male'));
+console.log(residentsBySpeciesAndGenderSorted('lions', 'female'));
