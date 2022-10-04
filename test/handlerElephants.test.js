@@ -16,4 +16,10 @@ describe('Testes da função HandlerElephants', () => {
   it('o argumento diferente de string retornando invalidez', () => {
     expect(handlerElephants(5)).toBe('Parâmetro inválido, é necessário uma string');
   });
+  it('o argumento diferente de string conhecida retornando null', () => {
+    expect(handlerElephants('lucas')).toBe(null);
+  });
+  it('o argumento location retornando NW', () => {
+    expect(handlerElephants('location')).toBe('NW');
+  });
 });
