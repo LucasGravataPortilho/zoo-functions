@@ -21,10 +21,18 @@ const residentsBySpecies = (animal) => {
   return residentsSpecie;
 };
 
+const residentsBySpeciesAndGender = (animal, sex) => {
+  const gender = sex;
+  const specie = data.species.find((bicho) => bicho.name === animal);
+  const residentsSpecieSex = specie.residents.filter((bicho) => bicho.sex === gender);
+  const specieSexList = residentsSpecieSex.map((bicho) => bicho.name);
+  return specieSexList;
+};
+
 function getAnimalMap(options) {
   // seu código aqui
 }
 
 module.exports = getAnimalMap;
 
-// console.log(data.species.map((nome) => nome.name));
+// console.log(residentsBySpeciesAndGender('otters', 'male'));
