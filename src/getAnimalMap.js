@@ -39,10 +39,31 @@ const residentsBySpeciesAndGenderSorted = (animal, sex) => {
   return sorted;
 };
 
+const includeNamesSorted = (options) => {
+  const obj = {
+    NE: semParam().NE.map((bicho) => ({ [`${bicho}`]: residentsBySpeciesSorted(bicho) })),
+    NW: semParam().NW.map((bicho) => ({ [`${bicho}`]: residentsBySpeciesSorted(bicho) })),
+    SE: semParam().SE.map((bicho) => ({ [`${bicho}`]: residentsBySpeciesSorted(bicho) })),
+    SW: semParam().SW.map((bicho) => ({ [`${bicho}`]: residentsBySpeciesSorted(bicho) })),
+  };
+  return obj;
+};
+
+const includeNamesNotSorted = (options) => {
+  const obj = {
+    NE: semParam().NE.map((bicho) => ({ [`${bicho}`]: residentsBySpecies(bicho) })),
+    NW: semParam().NW.map((bicho) => ({ [`${bicho}`]: residentsBySpecies(bicho) })),
+    SE: semParam().SE.map((bicho) => ({ [`${bicho}`]: residentsBySpecies(bicho) })),
+    SW: semParam().SW.map((bicho) => ({ [`${bicho}`]: residentsBySpecies(bicho) })),
+  };
+  return obj;
+};
+
 function getAnimalMap(options) {
   // seu código aqui
 }
 
 module.exports = getAnimalMap;
 
-console.log(residentsBySpeciesAndGenderSorted('lions', 'female'));
+// console.log(includeNamesSorted({ sorted: true }));
+// console.log(residentsBySpeciesSorted('lions'));
